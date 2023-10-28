@@ -25,5 +25,5 @@ light_grey  = '15'
 
 color1 = "15"
 color2 = "14"
-color3 = ""
+color3 = "12"
 reset  = '\x0f'

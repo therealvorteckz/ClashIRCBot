@@ -22,7 +22,7 @@ import sqlite3
 conn = sqlite3.connect("data.db")
 
 c = conn.cursor()
-
+global clan_name
 
 print('#'*56)
 print('#{0}#'.format(''.center(54)))
@@ -437,8 +437,7 @@ class Bot(object):
        
 bot = Bot()
 
-testone = 0
-global clan_name
+
 async def main() -> None:
         coc_client.add_events(
                     on_clan_member_role_change,
