@@ -300,13 +300,14 @@ class Bot(object):
                                                 for regs in user:
                                                     ptag = regs[1]
                                                 if coc.utils.is_valid_tag(ptag):
-                                                    player = await coc_client.get_clan(ptag)  
+                                                    player = await coc_client.get_clan(ptag)
+                                                    clan = await coc_client.get_clan(ptag)
                                         else:
                                             
                                             if arguments[1] and coc.utils.is_valid_tag(arguments[1]):
                                                 player = await coc_client.get_clan(arguments[1])
+                                                clan = await coc_client.get_clan(arguments[1])
                                                    
-                                        clan = player
                                         leader = utils.get(clan.members, role=coc.Role.leader)
                                         await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan.name, colors.color3)}{color("]", colors.color1)}')
                                         await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Invite Link:", colors.color2)} {color(clan.share_link,colors.color3)}{color("]", colors.color1)}')
