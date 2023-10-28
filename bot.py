@@ -386,7 +386,7 @@ class Bot(object):
                                         await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Total Attacks:", colors.color2)} {color(conq.value, colors.color3)}{color("] [", colors.color1)}{color("Total Defenses:", colors.color2)} {color(defs.value, colors.color3)}{color("]", colors.color1)}')
                                         
                                         if siege.value < 1:
-                                            await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Total Troops Donated:", colors.color2)} {color(don.value, colors.color3)}{color("] [", colors.color1)}{color("Total Spells Donateds:", colors.color2)} {color(spells.value, colors.color3)},{color("]", colors.color1)}')
+                                            await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Total Troops Donated:", colors.color2)} {color(don.value, colors.color3)}{color("] [", colors.color1)}{color("Total Spells Donateds:", colors.color2)} {color(spells.value, colors.color3)}{color("]", colors.color1)}')
                                         else:  
                                             #member += f'[Total Troops Donated: {don.value:,}] [Total Spells Donateds: {spells.value:,}]\n[**Total Siege Machines Donated:** {siege.value:,}]\n"
                                             await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Total Troops Donated:", colors.color2)} {color(don.value, colors.color3)}{color("]", colors.color1)}') 

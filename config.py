@@ -19,7 +19,7 @@ class config:
         vhost = None
         
     class throttle:
-        cmd       = 2
+        cmd       = 1
         msg       = 0.5
         reconnect = 10
         rejoin    = 3
