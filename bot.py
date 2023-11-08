@@ -215,7 +215,6 @@ class Bot(object):
                     target = args[2]
                     msg  = ' '.join(args[3:])[1:]
                     arguments = msg.split()
-                    bandageamount = '0'                
                     if target == self.nickname:
                         pass # Handle private messages here
                     if target.startswith('#'): # Channel message
