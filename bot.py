@@ -241,7 +241,7 @@ class Bot(object):
                                         await bot.sendmsg(config.irc.channel, f'!link clan [clantag]')
                                         await bot.sendmsg(config.irc.channel, f'!link player [playertag]')
                                         await bot.sendmsg(config.irc.channel, f'\r\n')
-                                        await bot.sendmsg(config.irc.channel, f"Tags not needed for following commands if !link'ed clan/playertag")
+                                        await bot.sendmsg(config.irc.channel, f"-Tags not needed for following commands if !link'ed clan/playertag")
                                         await bot.sendmsg(config.irc.channel, f'!stats [optional: playertag]')
                                         await bot.sendmsg(config.irc.channel, f'!clan [optional: clantag]')
                                         await bot.sendmsg(config.irc.channel, f'!troops [optional: playertag]')
