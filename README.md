@@ -4,7 +4,7 @@
 ![image](https://i.imgur.com/J1w8zaD.png)
 
 
-Create "bot.env" file with tho following parameters for your CoC API
+Create "bot.env" file with the following parameters for your CoC API
 
 [bot.env]
 
