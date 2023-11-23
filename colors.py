@@ -23,7 +23,7 @@ grey        = '14'
 light_grey  = '15'
 '''
 
-color1 = "15"
-color2 = "14"
-color3 = "12"
+color1 = "04"
+color2 = "\x0f"
+color3 = "14"
 reset  = '\x0f'

@@ -10,7 +10,7 @@ class config:
         port = 6697
         username = 'sod'
         realname = 'ClashIRCBot by vorteckz'
-        nickname = 'VoodooBot'
+        nickname = 'SPeLLoFDeATH'
         channel = '#vorteckz'
         channelkey = ''
         password = None

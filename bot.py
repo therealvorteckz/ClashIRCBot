@@ -58,7 +58,12 @@ def color(msg: str, foreground: str, background: str='') -> str:
     :param background: The background color to use.
     '''
     return f'\x03{foreground},{background}{msg}{colors.reset}' if background else f'\x03{foreground}{msg}{colors.reset}'
-
+@coc.ClanEvents.member_join()
+async def on_clan_member_join(member, clan):
+    await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(member.name,colors.color3)} {color("/", colors.reset)} {color(member.tag, colors.color3)}{color("] [", colors.color1)}{color("MP Trophies:", colors.color2)} {color(member.trophies, colors.color3)}{color("] [", colors.color1)}{color("BH Trophies:", colors.color2)} {color(member.builder_base_trophies, colors.color3)}{color("]", colors.color1)} {color("joined our clan", colors.color2)} {color("[", colors.color1)}{color(clan.name, colors.color3)}{color("] [", colors.color1)}{color("Tag:", colors.color2)} {color(clan.tag, colors.color3)}{color("]", colors.color1)}')
+@coc.ClanEvents.member_leave()
+async def on_clan_member_leave(member, clan):
+    await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(member.name,colors.color3)} {color("/", colors.reset)} {color(member.tag, colors.color3)}{color("] [", colors.color1)}{color("MP Trophies:", colors.color2)} {color(member.trophies, colors.color3)}{color("] [", colors.color1)}{color("BH Trophies:", colors.color2)} {color(member.builder_base_trophies, colors.color3)}{color("]", colors.color1)} {color("left our clan", colors.color2)} {color("[", colors.color1)}{color(clan.name, colors.color3)}{color("] [", colors.color1)}{color("Tag:", colors.color2)} {color(clan.tag, colors.color3)}{color("]", colors.color1)}')
 
 @coc.ClanEvents.member_role_change()
 async def on_clan_member_role_change(old_role, new_role):
@@ -66,18 +71,23 @@ async def on_clan_member_role_change(old_role, new_role):
 @coc.ClanEvents.member_trophies_change()
 async def on_clan_member_trophies_change(old_trophies, new_trophies):
     if old_trophies.trophies < new_trophies.trophies:
-        await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(old_trophies, colors.color3)}{color("] [", colors.color1)}{color("League:", colors.color2)} {color(old_trophies.league, colors.color3)}{color("] [", colors.color1)}{color("Trophies Increased:", colors.color2)} {color(old_trophies.trophies,colors.color3)} {color("->", colors.reset)} {color(new_trophies.trophies,colors.color3)}{color("] [", colors.color1)}+{color(new_trophies.trophies-old_trophies.trophies,colors.color3)}{color("]", colors.color1)}')
+        await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(old_trophies, colors.color3)}{color("] [", colors.color1)}{color("MP League:", colors.color2)} {color(old_trophies.league, colors.color3)}{color("] [", colors.color1)}{color("MP:Trophies Increased:", colors.color2)} {color(old_trophies.trophies,colors.color3)} {color("->", colors.reset)} {color(new_trophies.trophies,colors.color3)}{color("] [", colors.color1)}+{color(new_trophies.trophies-old_trophies.trophies,colors.color3)}{color("]", colors.color1)}')
     else:	
-        await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(old_trophies, colors.color3)}{color("] [", colors.color1)}{color("League:", colors.color2)} {color(old_trophies.league, colors.color3)}{color("] [", colors.color1)}{color("Trophies Decreased:", colors.color2)} {color(old_trophies.trophies,colors.color3)} {color("->", colors.reset)} {color(new_trophies.trophies,colors.color3)}{color("] [", colors.color1)}-{color(old_trophies.trophies-new_trophies.trophies,colors.color3)}{color("]", colors.color1)}')
-@coc.ClanEvents.member_join()
-async def on_clan_member_join(member, clan):
-    await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(member.name,colors.color3)} {color("/", colors.reset)} {color(member.tag, colors.color3)}{color("] [", colors.color1)}{color("MP Trophies:", colors.color2)} {color(member.trophies, colors.color3)}{color("] [", colors.color1)}{color("BH Trophies:", colors.color2)} {color(member.builder_base_trophies, colors.color3)}{color("]", colors.color1)} {color("joined our clan", colors.color2)} {color("[", colors.color1)}{color(clan.name, colors.color3)}{color("] [", colors.color1)}{color("Tag:", colors.color2)} {color(clan.tag, colors.color3)}{color("]", colors.color1)}')
-@coc.ClanEvents.member_leave()
-async def on_clan_member_leave(member, clan):
-    await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(member.name,colors.color3)} {color("/", colors.reset)} {color(member.tag, colors.color3)}{color("] [", colors.color1)}{color("MP Trophies:", colors.color2)} {color(member.trophies, colors.color3)}{color("] [", colors.color1)}{color("BH Trophies:", colors.color2)} {color(member.builder_base_trophies, colors.color3)}{color("]", colors.color1)} {color("left our clan", colors.color2)} {color("[", colors.color1)}{color(clan.name, colors.color3)}{color("] [", colors.color1)}{color("Tag:", colors.color2)} {color(clan.tag, colors.color3)}{color("]", colors.color1)}')
+        await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(old_trophies, colors.color3)}{color("] [", colors.color1)}{color("MP League:", colors.color2)} {color(old_trophies.league, colors.color3)}{color("] [", colors.color1)}{color("MP Trophies Decreased:", colors.color2)} {color(old_trophies.trophies,colors.color3)} {color("->", colors.reset)} {color(new_trophies.trophies,colors.color3)}{color("] [", colors.color1)}-{color(old_trophies.trophies-new_trophies.trophies,colors.color3)}{color("]", colors.color1)}')
 @coc.ClanEvents.member_league_change()
 async def on_clan_member_league_change(old_league, new_league):
-    await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(old_league, colors.color3)}{color("] [", colors.color1)}{color("League Change:", colors.color2)} {color(old_league.league, colors.color3)} {color("->", colors.reset)} {color(new_league.league, colors.color3)}{color("]", colors.color1)}')
+    await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(old_league, colors.color3)}{color("] [", colors.color1)}{color("MP League Change:", colors.color2)} {color(old_league.league, colors.color3)} {color("->", colors.reset)} {color(new_league.league, colors.color3)}{color("]", colors.color1)}')
+
+@coc.ClanEvents.member_builder_base_trophies_change()
+async def on_clan_member_builder_base_trophies_change(old_member, new_member):
+    if old_member.builder_base_trophies < new_member.builder_base_trophies:
+        await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(old_member, colors.color3)}{color("] [", colors.color1)}{color("BH League:", colors.color2)} {color(old_member.builder_base_league, colors.color3)}{color("] [", colors.color1)}{color("BH Trophies Increased:", colors.color2)} {color(old_member.builder_base_trophies,colors.color3)} {color("->", colors.reset)} {color(new_member.builder_base_trophies,colors.color3)}{color("] [", colors.color1)}+{color(new_member.builder_base_trophies-old_member.builder_base_trophies,colors.color3)}{color("]", colors.color1)}')
+    else:	
+        await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(old_member, colors.color3)}{color("] [", colors.color1)}{color("BH League:", colors.color2)} {color(old_member.builder_base_league, colors.color3)}{color("] [", colors.color1)}{color("BH Trophies Decreased:", colors.color2)} {color(old_member.builder_base_trophies,colors.color3)} {color("->", colors.reset)} {color(new_member.builder_base_trophies,colors.color3)}{color("] [", colors.color1)}-{color(old_member.builder_base_trophies-new_member.builder_base_trophies,colors.color3)}{color("]", colors.color1)}')
+@coc.ClanEvents.member_builder_base_league_change()
+async def on_clan_member_builder_base_league_change(old_member, new_member):
+    await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(old_member, colors.color3)}{color("] [", colors.color1)}{color("BH League Change:", colors.color2)} {color(old_member.builder_base_league, colors.color3)} {color("->", colors.reset)} {color(new_member.builder_base_league, colors.color3)}{color("]", colors.color1)}')
+
 @coc.ClanEvents.member_donations(config.clashconfig.tag)
 async def on_clan_member_donation(old_member, new_member):
     final_donated_troops = new_member.donations - old_member.donations
@@ -126,8 +136,8 @@ class Bot(object):
         self.channelkey = config.irc.channelkey
         self.reader   = None
         self.writer   = None			
-    
-    createtable()
+        createtable()
+        
     async def action(self, chan: str, msg: str):
         '''
         Send an ACTION to the IRC server.
@@ -439,11 +449,13 @@ bot = Bot()
 
 async def main() -> None:
         coc_client.add_events(
-                    on_clan_member_role_change,
-                    on_clan_member_trophies_change,
                     on_clan_member_join,
                     on_clan_member_leave,
+                    on_clan_member_role_change,
+                    on_clan_member_trophies_change,
                     on_clan_member_league_change,
+                    on_clan_member_builder_base_trophies_change,
+                    on_clan_member_builder_base_league_change,
                     on_clan_member_donation,
                     on_clan_member_donation_receive,
                     on_war_state_change,
@@ -470,16 +482,18 @@ async def main() -> None:
             print("error")
             sleep(5)
             coc_client.remove_events(
-                    on_clan_member_role_change,
-                    on_clan_member_trophies_change,
                     on_clan_member_join,
                     on_clan_member_leave,
+                    on_clan_member_role_change,
+                    on_clan_member_trophies_change,
                     on_clan_member_league_change,
+                    on_clan_member_builder_base_trophies_change,
+                    on_clan_member_builder_base_league_change,
                     on_clan_member_donation,
                     on_clan_member_donation_receive,
                     on_war_state_change,
                     current_war_stats
-                    )     
+                    )
             await main()       
         threading.Thread(target=await bot.connect(),daemon=True).start()
         createtable() 
