@@ -300,7 +300,7 @@ class Bot(object):
                                         for i, a in enumerate(clan.members, start=1):
                                                 name1 = a.name
                                                 tag1 = a.tag
-                                                await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Tag:", colors.color2)}{color(a.tag, colors.color3)}{color("]", colors.color1)} {color("[", colors.color1)}{color("Player:", colors.color2)} {color(a.name, colors.color3)}{color("]", colors.color1)}')
+                                                await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Tag:", colors.color2)} {color(a.tag, colors.color3)}{color("]", colors.color1)} {color("[", colors.color1)}{color("Player:", colors.color2)} {color(a.name, colors.color3)}{color("]", colors.color1)}')
                                                 #member += f"{name1}\n"
                                                 #membertag += f"{tag1}\n"
                                     if arguments[0] == '!clan':
@@ -326,7 +326,7 @@ class Bot(object):
                                         await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Tag:", colors.color2)} {color(clan.tag, colors.color3)}{color("]", colors.color1)}')
                                         await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Description:", colors.color2)} {color(clan.description,colors.color3)}{color("]", colors.color1)}')
                                         await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("War League:", colors.color2)} {color(clan.war_league, colors.color3)}{color("]", colors.color1)}')
-                                        await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Trophies", colors.color2)}{color("] [", colors.color1)}{color("MP:", colors.color2)} {color(clan.points, colors.color3)}{color("] [", colors.color1)}{color("VS:", colors.color2)} {color(clan.builder_base_points, colors.color3)}{color("]", colors.color1)}')
+                                        await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Trophies", colors.color2)}{color("] [", colors.color1)}{color("MP:", colors.color2)} {color(clan.points, colors.color3)}{color("] [", colors.color1)}{color("BH:", colors.color2)} {color(clan.builder_base_points, colors.color3)}{color("]", colors.color1)}')
                                         await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Member Count", colors.color2)} {color("[", colors.color1)}{color(clan.member_count, colors.color3)}{color("/", colors.color1)}{color("50", colors.color3)}{color("]", colors.color1)}')
                                         if clan.war_losses != None:
                                             if clan.war_wins != None:
@@ -352,7 +352,7 @@ class Bot(object):
                                             if coc.utils.is_valid_tag(arguments[2]):
                                                 teamname = await coc_client.get_clan(arguments[2])
                                                 c.execute(f'UPDATE USERS set CLAN = (:clan) where NAME = (:name)', {'clan': arguments[2], 'name': nick})
-                                                await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Linked your nickname to clan name: ", colors.color2)}{color(teamname, colors.color3)} {color("Tag: ", colors.color2)}{color(arguments[2], colors.color3)}]')
+                                                await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Linked your nickname to clan name: ", colors.color2)}{color(teamname, colors.color3)} {color("Tag:", colors.color2)} {color(arguments[2], colors.color3)}]')
                                                 conn.commit()  
                                             else:
                                                 await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("You entered a NON-existant Clan Tag", colors.color2)}{color("]", colors.color1)}')
@@ -387,8 +387,8 @@ class Bot(object):
                                                 await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Clan:", colors.color2)} {color(player.clan, colors.color3)}{color("] [", colors.color1)}{color("Tag:", colors.color2)} {color(player.clan.tag, colors.color3)}{color("] [", colors.color1)}{color("Member Role:", colors.color2)} {color(player.role, colors.color3)}{color("]", colors.color1)}')
                                                 await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("War Stars:", colors.color2)} {color(player.war_stars, colors.color3)}{color("]", colors.color1)}')
                                         
-                                        await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("MP Trophies:", colors.color2)} {color(player.trophies, colors.color3)}{color("] [", colors.color1)}{color("VS Trophies:", colors.color2)} {color(player.builder_base_trophies, colors.color3)}{color("]", colors.color1)}')
-                                        await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("League:", colors.color2)} {color(player.league, colors.color3)}{color("]", colors.color1)}')
+                                        await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("MP Trophies:", colors.color2)} {color(player.trophies, colors.color3)}{color("] [", colors.color1)}{color("BH Trophies:", colors.color2)} {color(player.builder_base_trophies, colors.color3)}{color("]", colors.color1)}')
+                                        await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("MP League:", colors.color2)} {color(player.league, colors.color3)}{color("] [", colors.color1)}{color("BH League:",colors.color2)} {color(player.builder_base_league, colors.color3)}{color("]", colors.color1)}')
                              
                                         await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Season Attacks:", colors.color2)} {color(player.attack_wins, colors.color3)}{color("] [", colors.color1)}{color("Season Defenses:",  colors.color2)} {color(player.defense_wins, colors.color3)}{color("]", colors.color1)}')
                                         await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Season Donated:", colors.color2)} {color(player.donations, colors.color3)}{color("] [", colors.color1)}{color("Season Received:", colors.color2)} {color(player.received, colors.color3)}{color("]", colors.color1)}')
