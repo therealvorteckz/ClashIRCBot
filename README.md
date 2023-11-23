@@ -2,9 +2,9 @@
 # Clash of Clans IRC - Stats and Announcer
 
 ![image](https://i.imgur.com/J1w8zaD.png)
+![image](https://pbs.twimg.com/media/F9K2TLNWsAAnRbh?format=png&name=medium)
 
-
-Create "bot.env" file with tho following parameters for your CoC API
+Create "bot.env" file with the following parameters for your CoC API
 
 [bot.env]
 
