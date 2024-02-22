@@ -17,7 +17,7 @@ PASSWORD="Developer account pass"
 Commands:
 
 
-!link <clan/player> <clan/playertag>
+!link <clan / player> <clan/playertag>
    - !link clan [clantag]
    - !link player [playertag]
     
