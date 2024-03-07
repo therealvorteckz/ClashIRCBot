@@ -33,6 +33,6 @@ Commands:
 
 !showmembers [optional: clantag]
 
-!war [shows war stats for curren/recent wars[
+!war [shows war stats for current/recent wars]
 
 !reloadcolors [change bot colors in config and reload on-the-fly]
