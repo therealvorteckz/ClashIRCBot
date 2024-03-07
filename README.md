@@ -1,6 +1,8 @@
 # ClashIRCBot
 # Clash of Clans IRC - Stats and Announcer
 
+# new features coming soon - login system/switches for trophy changes mp/vs to turn them on or off on command
+
 ![image](https://i.imgur.com/J1w8zaD.png)
 ![image](https://pbs.twimg.com/media/F9K2TLNWsAAnRbh?format=png&name=medium)
 
