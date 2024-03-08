@@ -22,6 +22,7 @@ import sqlite3
 conn = sqlite3.connect("data.db")
 
 c = conn.cursor()
+
 global clan_name
 
 print('#'*56)
@@ -45,6 +46,36 @@ def createtable():
     conn.commit()
     c.execute(f'INSERT OR REPLACE INTO users VALUES (:name, :clan, :tag)', {'name': None, 'clan': None, 'tag': None})
     conn.commit()
+
+ 
+    c.execute("DROP TABLE admins")
+    conn.commit()
+    c.execute('''CREATE TABLE if not exists admins (
+        name text unique
+        )''')
+    conn.commit()
+    c.execute(f'INSERT OR REPLACE INTO admins VALUES (:name)', {'name': None})
+    conn.commit()
+
+    c.execute('''CREATE TABLE if not exists announcebd (                          
+                              bhd text unique,
+                              setting text
+                              )''')
+    conn.commit()
+    c.execute(f'INSERT OR REPLACE INTO announcebd VALUES (:bhd, :setting)', {'bhd': 'bh', 'setting': 'on'})
+    conn.commit()                           
+                                                  
+    c.execute('''CREATE TABLE if not exists announcemp (
+                              
+                              mpd text unique,
+                              setting text
+                              )''')
+    conn.commit()
+    c.execute(f'INSERT OR REPLACE INTO announcemp VALUES (:mpd, :setting)', {'mpd': 'mp', 'setting': 'on'})
+    conn.commit()                           
+                                                                                      
+
+
 coc_client = coc.EventsClient()    
 
 
@@ -63,6 +94,8 @@ async def on_clan_member_join(member, clan):
     await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(member.name,colors.color3)} {color("/", colors.reset)} {color(member.tag, colors.color3)}{color("] [", colors.color1)}{color("MP Trophies:", colors.color2)} {color(member.trophies, colors.color3)}{color("] [", colors.color1)}{color("BH Trophies:", colors.color2)} {color(member.builder_base_trophies, colors.color3)}{color("]", colors.color1)} {color("joined our clan", colors.color2)} {color("[", colors.color1)}{color(clan.name, colors.color3)}{color("] [", colors.color1)}{color("Tag:", colors.color2)} {color(clan.tag, colors.color3)}{color("]", colors.color1)}')
 @coc.ClanEvents.member_leave()
 async def on_clan_member_leave(member, clan):
+
+                                    
     await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(member.name,colors.color3)} {color("/", colors.reset)} {color(member.tag, colors.color3)}{color("] [", colors.color1)}{color("MP Trophies:", colors.color2)} {color(member.trophies, colors.color3)}{color("] [", colors.color1)}{color("BH Trophies:", colors.color2)} {color(member.builder_base_trophies, colors.color3)}{color("]", colors.color1)} {color("left our clan", colors.color2)} {color("[", colors.color1)}{color(clan.name, colors.color3)}{color("] [", colors.color1)}{color("Tag:", colors.color2)} {color(clan.tag, colors.color3)}{color("]", colors.color1)}')
 
 @coc.ClanEvents.member_role_change()
@@ -70,20 +103,31 @@ async def on_clan_member_role_change(old_role, new_role):
     await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member Role Change", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(old_role.name, colors.color3)}{color("] [", colors.color1)}{color(old_role.role,colors.color3)} {color("to", colors.reset)} {color(new_role.role, colors.color3)}{color("]", colors.color1)}')
 @coc.ClanEvents.member_trophies_change()
 async def on_clan_member_trophies_change(old_trophies, new_trophies):
-    if old_trophies.trophies < new_trophies.trophies:
-        await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(old_trophies, colors.color3)}{color("] [", colors.color1)}{color("MP League:", colors.color2)} {color(old_trophies.league, colors.color3)}{color("] [", colors.color1)}{color("MP Trophies Increased:", colors.color2)} {color(old_trophies.trophies,colors.color3)} {color("->", colors.reset)} {color(new_trophies.trophies,colors.color3)}{color("] [", colors.color1)}+{color(new_trophies.trophies-old_trophies.trophies,colors.color3)}{color("]", colors.color1)}')
-    else:	
-        await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(old_trophies, colors.color3)}{color("] [", colors.color1)}{color("MP League:", colors.color2)} {color(old_trophies.league, colors.color3)}{color("] [", colors.color1)}{color("MP Trophies Decreased:", colors.color2)} {color(old_trophies.trophies,colors.color3)} {color("->", colors.reset)} {color(new_trophies.trophies,colors.color3)}{color("] [", colors.color1)}-{color(old_trophies.trophies-new_trophies.trophies,colors.color3)}{color("]", colors.color1)}')
+
+    c.execute(f"SELECT * FROM announcemp WHERE mpd=(:mpd)", {'mpd': 'mp'})
+    data = c.fetchall()
+    for setting in data:
+        if setting[1] == 'on':   
+            
+            if old_trophies.trophies < new_trophies.trophies:
+                await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(old_trophies, colors.color3)}{color("] [", colors.color1)}{color("MP League:", colors.color2)} {color(old_trophies.league, colors.color3)}{color("] [", colors.color1)}{color("MP Trophies Increased:", colors.color2)} {color(old_trophies.trophies,colors.color3)} {color("->", colors.reset)} {color(new_trophies.trophies,colors.color3)}{color("] [", colors.color1)}+{color(new_trophies.trophies-old_trophies.trophies,colors.color3)}{color("]", colors.color1)}')
+            else:	
+                await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(old_trophies, colors.color3)}{color("] [", colors.color1)}{color("MP League:", colors.color2)} {color(old_trophies.league, colors.color3)}{color("] [", colors.color1)}{color("MP Trophies Decreased:", colors.color2)} {color(old_trophies.trophies,colors.color3)} {color("->", colors.reset)} {color(new_trophies.trophies,colors.color3)}{color("] [", colors.color1)}-{color(old_trophies.trophies-new_trophies.trophies,colors.color3)}{color("]", colors.color1)}')
 @coc.ClanEvents.member_league_change()
 async def on_clan_member_league_change(old_league, new_league):
     await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(old_league, colors.color3)}{color("] [", colors.color1)}{color("MP League Change:", colors.color2)} {color(old_league.league, colors.color3)} {color("->", colors.reset)} {color(new_league.league, colors.color3)}{color("]", colors.color1)}')
 
 @coc.ClanEvents.member_builder_base_trophies_change()
 async def on_clan_member_builder_base_trophies_change(old_member, new_member):
-    if old_member.builder_base_trophies < new_member.builder_base_trophies:
-        await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(old_member, colors.color3)}{color("] [", colors.color1)}{color("BH League:", colors.color2)} {color(old_member.builder_base_league, colors.color3)}{color("] [", colors.color1)}{color("BH Trophies Increased:", colors.color2)} {color(old_member.builder_base_trophies,colors.color3)} {color("->", colors.reset)} {color(new_member.builder_base_trophies,colors.color3)}{color("] [", colors.color1)}+{color(new_member.builder_base_trophies-old_member.builder_base_trophies,colors.color3)}{color("]", colors.color1)}')
-    else:	
-        await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(old_member, colors.color3)}{color("] [", colors.color1)}{color("BH League:", colors.color2)} {color(old_member.builder_base_league, colors.color3)}{color("] [", colors.color1)}{color("BH Trophies Decreased:", colors.color2)} {color(old_member.builder_base_trophies,colors.color3)} {color("->", colors.reset)} {color(new_member.builder_base_trophies,colors.color3)}{color("] [", colors.color1)}-{color(old_member.builder_base_trophies-new_member.builder_base_trophies,colors.color3)}{color("]", colors.color1)}')
+
+    c.execute(f"SELECT * FROM announcebd WHERE bhd=(:bhd)", {'bhd': 'bh'})
+    data = c.fetchall()
+    for setting in data:
+        if setting[1] == 'on':      
+            if old_member.builder_base_trophies < new_member.builder_base_trophies:
+                await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(old_member, colors.color3)}{color("] [", colors.color1)}{color("BH League:", colors.color2)} {color(old_member.builder_base_league, colors.color3)}{color("] [", colors.color1)}{color("BH Trophies Increased:", colors.color2)} {color(old_member.builder_base_trophies,colors.color3)} {color("->", colors.reset)} {color(new_member.builder_base_trophies,colors.color3)}{color("] [", colors.color1)}+{color(new_member.builder_base_trophies-old_member.builder_base_trophies,colors.color3)}{color("]", colors.color1)}')
+            else:	
+                await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(old_member, colors.color3)}{color("] [", colors.color1)}{color("BH League:", colors.color2)} {color(old_member.builder_base_league, colors.color3)}{color("] [", colors.color1)}{color("BH Trophies Decreased:", colors.color2)} {color(old_member.builder_base_trophies,colors.color3)} {color("->", colors.reset)} {color(new_member.builder_base_trophies,colors.color3)}{color("] [", colors.color1)}-{color(old_member.builder_base_trophies-new_member.builder_base_trophies,colors.color3)}{color("]", colors.color1)}')
 @coc.ClanEvents.member_builder_base_league_change()
 async def on_clan_member_builder_base_league_change(old_member, new_member):
     await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(old_member, colors.color3)}{color("] [", colors.color1)}{color("BH League Change:", colors.color2)} {color(old_member.builder_base_league, colors.color3)} {color("->", colors.reset)} {color(new_member.builder_base_league, colors.color3)}{color("]", colors.color1)}')
@@ -227,7 +271,7 @@ class Bot(object):
                     arguments = msg.split()
                     if target == self.nickname:
                         pass # Handle private messages here
-                    if target.startswith('#'): # Channel message
+                    if target.startswith(''): # Channel message
                         if msg.startswith('!'):
                             try:    
                                 if time.time() - config.throttle.last < config.throttle.cmd and config.throttle.lastnick == nick:
@@ -242,8 +286,33 @@ class Bot(object):
                                         await bot.sendmsg(target, f'[XOXO Hugger9000... {nick} hugs {arguments[1]}]')
                                     if arguments[0] == '!reloadcolors':
                                         reload(colors)
-                                        
-                                    if arguments[0] == '!help':
+
+                                    if arguments[0] == '!announce':
+                                            c.execute(f'SELECT rowid FROM admins WHERE name=(:name)', {'name': nick})
+                                            data=c.fetchone()
+                                            if data is None:
+                                                return
+                                            elif arguments[1] == 'bb':
+                                                if arguments[2] == 'off':
+                                                    c.execute('INSERT OR REPLACE INTO announcebd VALUES (:bh, :setting)', {'bh': 'bh', 'setting': 'off'})
+                                                    conn.commit() 
+                                                    await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Builder Base Trophy Announcer:", colors.color2)} {color("OFF", colors.color3)}{color("]", colors.color1)}')
+                                                elif arguments[2] == 'on':
+                                                    c.execute('INSERT OR REPLACE INTO announcebd VALUES (:bh, :setting)', {'bh': 'bh', 'setting': 'on'})
+                                                    conn.commit() 
+                                                    await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Builder Base Trophy Announcer:", colors.color2)} {color("ON", colors.color3)}{color("]", colors.color1)}')
+                                                   
+                                            elif arguments[1] == 'mp':
+                                                if arguments[2] == 'off':
+                                                    c.execute('INSERT OR REPLACE INTO announcemp VALUES (:mpd, :setting)', {'mpd': 'mp', 'setting': 'off'})
+                                                    conn.commit()
+                                                    await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("MP Trophy Announcer:", colors.color2)} {color("OFF", colors.color3)}{color("]", colors.color1)}') 
+                                                elif arguments[2] == 'on':
+                                                    c.execute('INSERT OR REPLACE INTO announcemp VALUES (:mpd, :setting)', {'mpd': 'mp', 'setting': 'on'})
+                                                    conn.commit() 
+                                                    await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("MP Trophy Announcer:", colors.color2)} {color("ON", colors.color3)}{color("]", colors.color1)}')
+                                                     
+                                    elif arguments[0] == '!help':
                                         await bot.sendmsg(config.irc.channel, f'[ClashIRCBot Commands]')
                                         await bot.sendmsg(config.irc.channel, f'\r\n')
                                         await bot.sendmsg(config.irc.channel, f'!link <clan/player> <clan/playertag>')
@@ -283,7 +352,7 @@ class Bot(object):
                                                 await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("War", colors.color3)}{color("] [#", colors.color1)}{color(o, colors.color3)} {color("[", colors.color1)}{color(e.name, colors.color3)}{color("] [", colors.color1)}{color("Stars:", colors.color2)} {color(e.star_count, colors.color3)}{color("]", colors.color1)}')
                                     if arguments[0] == '!showmembers':
                                         if len(arguments) <= 1:
-                                                c.execute(f"SELECT * FROM users WHERE name=:name", {'name': nick})
+                                                c.execute(f"SELECT * FROM users WHERE name=(:name)", {'name': nick})
                                                 user = c.fetchall()
                                                 for regs in user:
                                                     ptag = regs[1]
@@ -305,7 +374,7 @@ class Bot(object):
                                                 #membertag += f"{tag1}\n"
                                     if arguments[0] == '!clan':
                                         if len(arguments) <= 1:
-                                                c.execute(f"SELECT * FROM users WHERE name=:name", {'name': nick})
+                                                c.execute(f"SELECT * FROM users WHERE name=(:name)", {'name': nick})
                                                 user = c.fetchall()
                                                 for regs in user:
                                                     ptag = regs[1]
@@ -333,6 +402,18 @@ class Bot(object):
                                                 if clan.war_ties != None:
                                                    await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Wars Total:", colors.color2)} {color(clan.war_wins+ clan.war_losses+ clan.war_ties, colors.color3)}{color("]", colors.color1)}')
                                         await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Wars Won:", colors.color2)} {color(clan.war_wins, colors.color3)}{color("] [", colors.color1)}{color("Wars Lost:", colors.color2)} {color(clan.war_losses, colors.color3)}{color("] [", colors.color1)}{color("Wars Ties:", colors.color2)} {color(clan.war_ties, colors.color3)}{color("]", colors.color1)}')
+                                    if arguments[0] == '!login':
+                                        if arguments[1] != None:
+                                            c.execute(f'SELECT rowid FROM admins WHERE name=(:name)', {'name': nick})
+                                            data=c.fetchone()
+                                            if data is None:
+                                                if arguments[1] == config.irc.adminpassword:
+                                                    c.execute('INSERT OR REPLACE INTO admins VALUES (:name)', {'name': nick})
+                                                    conn.commit()
+                                                    await bot.sendmsg(nick, f"You've Logged in as Admin!")
+                                                    await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Admin Login Verfied:", colors.color2)} {color(nick, colors.color3)}{color("]", colors.color1)}')
+                                            else:
+                                                await bot.sendmsg(nick, f"You're an Admin!")
                                     if arguments[0] == '!link':
                                         c.execute(f'SELECT rowid FROM users WHERE name=(:name)', {'name': nick})
                                         data=c.fetchone()
@@ -352,14 +433,14 @@ class Bot(object):
                                             if coc.utils.is_valid_tag(arguments[2]):
                                                 teamname = await coc_client.get_clan(arguments[2])
                                                 c.execute(f'UPDATE USERS set CLAN = (:clan) where NAME = (:name)', {'clan': arguments[2], 'name': nick})
-                                                await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Linked your nickname to clan name: ", colors.color2)}{color(teamname, colors.color3)} {color("Tag:", colors.color2)} {color(arguments[2], colors.color3)}]')
+                                                await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Linked your nickname to clan name: ", colors.color2)}{color(teamname, colors.color3)} {color("Tag:", colors.color2)} {color(arguments[2], colors.color3)}{color("]", colors.color1)}')
                                                 conn.commit()  
                                             else:
                                                 await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("You entered a NON-existant Clan Tag", colors.color2)}{color("]", colors.color1)}')
 
                                     if arguments[0] == '!stats':
                                         if len(arguments) <= 1:
-                                                c.execute(f"SELECT * FROM users WHERE name=:name", {'name': nick})
+                                                c.execute(f"SELECT * FROM users WHERE name=(:name)", {'name': nick})
                                                 user = c.fetchall()
                                                 for regs in user:
                                                     ptag = regs[2]
