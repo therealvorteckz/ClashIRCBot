@@ -1,6 +1,6 @@
 # ClashIRCBot
 # Clash of Clans IRC - Stats and Announcer
-# New feature - Private Message !login adminpas
+# New feature - Private Message !login adminpass
 # New feature - !announce <bb/mp> <on/off> - Turn on and off announcer for mutliplayer/builder base trophy changes
 
 ![image](https://i.imgur.com/J1w8zaD.png)
