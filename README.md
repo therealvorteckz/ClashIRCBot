@@ -1,7 +1,7 @@
 # ClashIRCBot
 # Clash of Clans IRC - Stats and Announcer
-
-# new features coming soon - login system/switches for trophy changes mp/vs to turn them on or off on command
+# New feature - Private Message !login adminpas
+# New feature - !announce <bb/mp> <on/off> - Turn on and off announcer for mutliplayer/builder base trophy changes
 
 ![image](https://i.imgur.com/J1w8zaD.png)
 ![image](https://pbs.twimg.com/media/F9K2TLNWsAAnRbh?format=png&name=medium)
@@ -17,7 +17,8 @@ PASSWORD="Developer account pass"
 
 
 Commands:
-
+!login <adminpass> # Private message the bot to login, to avoid people seeing your admin password
+!announce <bb/mp> <on/off> # Turn on or off for builder base/mutliplayer trophy changes
 
 !link <clan / player> <clan/playertag>
    - !link clan [clantag]
