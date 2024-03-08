@@ -17,8 +17,10 @@ PASSWORD="Developer account pass"
 
 
 Commands:
+
 !login <adminpass> # Private message the bot to login, to avoid people seeing your admin password
-!announce <bb/mp> <on/off> # Turn on or off for builder base/mutliplayer trophy changes
+
+!announce <bb/mp> <on/off> # Turn on or off for builder base/mutliplayer trophy changes / admin only
 
 !link <clan / player> <clan/playertag>
    - !link clan [clantag]
