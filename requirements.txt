@@ -1,7 +1,5 @@
-python3 reuquired
+python3 required modules
 
-
-python modules:
 
 python-dotenv
 coc.py
