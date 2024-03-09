@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 # Clash of Clans - IRC Stats Bot and Announcer
-# coded by vorteckz@vorteckzstudios.online
+# coded by vorteckz@voodoo.llc
 
 import coc
 from coc import utils
