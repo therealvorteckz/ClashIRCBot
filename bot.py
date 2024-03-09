@@ -44,29 +44,29 @@ def createtable():
 
         )''')
     conn.commit()
-    c.execute(f'INSERT OR REPLACE INTO users VALUES (:name, :clan, :tag)', {'name': None, 'clan': None, 'tag': None})
-    conn.commit()
+#    c.execute(f'INSERT OR REPLACE INTO users VALUES (:name, :clan, :tag)', {'name': None, 'clan': None, 'tag': None})
+#    conn.commit()
 
  
-    c.execute("DROP TABLE admins")
+    c.execute("DROP TABLE IF EXISTS admins")
     conn.commit()
     c.execute('''CREATE TABLE if not exists admins (
         name text unique
         )''')
     conn.commit()
-    c.execute(f'INSERT OR REPLACE INTO admins VALUES (:name)', {'name': None})
-    conn.commit()
 
     c.execute('''CREATE TABLE if not exists announcebd (                          
                               bhd text unique,
-                              setting text
+                              setting text unique
                               )''')
     conn.commit()
     
-    c.execute(f"SELECT * FROM announcebd WHERE bhd=(:bhd)", {'bhd': 'bh'})
-    data = c.fetchall()
-    if data == None:
-        c.execute(f'INSERT OR REPLACE INTO announcebd VALUES (:bhd, :setting)', {'bhd': 'bh', 'setting': 'on'})
+    
+    c.execute('''SELECT COUNT(*) from announcebd ''');
+    bbannouncecheck = c.fetchall()
+    
+    if bbannouncecheck[0][0] == 0:
+        c.execute(f'INSERT INTO announcebd VALUES (:bhd, :setting)', {'bhd': 'bh', 'setting': 'on'})
         conn.commit()                           
                                                   
     c.execute('''CREATE TABLE if not exists announcemp (
@@ -75,10 +75,12 @@ def createtable():
                               setting text
                               )''')
     conn.commit()
-    c.execute(f"SELECT * FROM announcemp WHERE mpd=(:mpd)", {'mpd': 'mp'})
-    data = c.fetchall()
-    if data == None:
-        c.execute(f'INSERT OR REPLACE INTO announcebd VALUES (:mpd, :setting)', {'mpd': 'mp', 'setting': 'on'})
+    
+    c.execute('''SELECT COUNT(*) from announcemp ''');
+    mpannouncecheck = c.fetchall()
+    
+    if mpannouncecheck[0][0] == 0:
+        c.execute(f'INSERT INTO announcemp VALUES (:mpd, :setting)', {'mpd': 'mp', 'setting': 'on'})
         conn.commit()                           
                                                                          
 
@@ -114,7 +116,7 @@ async def on_clan_member_trophies_change(old_trophies, new_trophies):
     c.execute(f"SELECT * FROM announcemp WHERE mpd=(:mpd)", {'mpd': 'mp'})
     data = c.fetchall()
     for setting in data:
-        if setting[1] == 'on':   
+        if setting[1] == 'on' or setting[1] == None:   
             
             if old_trophies.trophies < new_trophies.trophies:
                 await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(old_trophies, colors.color3)}{color("] [", colors.color1)}{color("MP League:", colors.color2)} {color(old_trophies.league, colors.color3)}{color("] [", colors.color1)}{color("MP Trophies Increased:", colors.color2)} {color(old_trophies.trophies,colors.color3)} {color("->", colors.reset)} {color(new_trophies.trophies,colors.color3)}{color("] [", colors.color1)}+{color(new_trophies.trophies-old_trophies.trophies,colors.color3)}{color("]", colors.color1)}')
@@ -130,7 +132,7 @@ async def on_clan_member_builder_base_trophies_change(old_member, new_member):
     c.execute(f"SELECT * FROM announcebd WHERE bhd=(:bhd)", {'bhd': 'bh'})
     data = c.fetchall()
     for setting in data:
-        if setting[1] == 'on':      
+        if setting[1] == 'on' or setting[1] == None:      
             if old_member.builder_base_trophies < new_member.builder_base_trophies:
                 await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(old_member, colors.color3)}{color("] [", colors.color1)}{color("BH League:", colors.color2)} {color(old_member.builder_base_league, colors.color3)}{color("] [", colors.color1)}{color("BH Trophies Increased:", colors.color2)} {color(old_member.builder_base_trophies,colors.color3)} {color("->", colors.reset)} {color(new_member.builder_base_trophies,colors.color3)}{color("] [", colors.color1)}+{color(new_member.builder_base_trophies-old_member.builder_base_trophies,colors.color3)}{color("]", colors.color1)}')
             else:	
@@ -301,21 +303,21 @@ class Bot(object):
                                                 return
                                             elif arguments[1] == 'bb':
                                                 if arguments[2] == 'off':
-                                                    c.execute('INSERT OR REPLACE INTO announcebd VALUES (:bh, :setting)', {'bh': 'bh', 'setting': 'off'})
+                                                    c.execute('REPLACE INTO announcebd VALUES (:bhd, :setting)', {'bhd': 'bh', 'setting': 'off'})
                                                     conn.commit() 
                                                     await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Builder Base Trophy Announcer:", colors.color2)} {color("OFF", colors.color3)}{color("]", colors.color1)}')
                                                 elif arguments[2] == 'on':
-                                                    c.execute('INSERT OR REPLACE INTO announcebd VALUES (:bh, :setting)', {'bh': 'bh', 'setting': 'on'})
+                                                    c.execute('REPLACE INTO announcebd VALUES (:bhd, :setting)', {'bhd': 'bh', 'setting': 'on'})
                                                     conn.commit() 
                                                     await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Builder Base Trophy Announcer:", colors.color2)} {color("ON", colors.color3)}{color("]", colors.color1)}')
                                                    
                                             elif arguments[1] == 'mp':
                                                 if arguments[2] == 'off':
-                                                    c.execute('INSERT OR REPLACE INTO announcemp VALUES (:mpd, :setting)', {'mpd': 'mp', 'setting': 'off'})
+                                                    c.execute('REPLACE INTO announcemp VALUES (:mpd, :setting)', {'mpd': 'mp', 'setting': 'off'})
                                                     conn.commit()
                                                     await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("MP Trophy Announcer:", colors.color2)} {color("OFF", colors.color3)}{color("]", colors.color1)}') 
                                                 elif arguments[2] == 'on':
-                                                    c.execute('INSERT OR REPLACE INTO announcemp VALUES (:mpd, :setting)', {'mpd': 'mp', 'setting': 'on'})
+                                                    c.execute('REPLACE INTO announcemp VALUES (:mpd, :setting)', {'mpd': 'mp', 'setting': 'on'})
                                                     conn.commit() 
                                                     await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("MP Trophy Announcer:", colors.color2)} {color("ON", colors.color3)}{color("]", colors.color1)}')
                                                      
