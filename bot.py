@@ -62,8 +62,12 @@ def createtable():
                               setting text
                               )''')
     conn.commit()
-    c.execute(f'INSERT OR REPLACE INTO announcebd VALUES (:bhd, :setting)', {'bhd': 'bh', 'setting': 'on'})
-    conn.commit()                           
+    
+    c.execute(f"SELECT * FROM announcemp WHERE bhd=(:bhd)", {'bhd': 'bh'})
+    data = c.fetchall()
+    if data = None:
+        c.execute(f'INSERT OR REPLACE INTO announcebd VALUES (:bhd, :setting)', {'bhd': 'bh', 'setting': 'on'})
+        conn.commit()                           
                                                   
     c.execute('''CREATE TABLE if not exists announcemp (
                               
@@ -71,9 +75,12 @@ def createtable():
                               setting text
                               )''')
     conn.commit()
-    c.execute(f'INSERT OR REPLACE INTO announcemp VALUES (:mpd, :setting)', {'mpd': 'mp', 'setting': 'on'})
-    conn.commit()                           
-                                                                                      
+    c.execute(f"SELECT * FROM announcemp WHERE mpd=(:n)", {'mpd': 'mp'})
+    data = c.fetchall()
+    if data = None:
+        c.execute(f'INSERT OR REPLACE INTO announcebd VALUES (:mpd, :setting)', {'mpd': 'mp', 'setting': 'on'})
+        conn.commit()                           
+                                                                         
 
 
 coc_client = coc.EventsClient()    
