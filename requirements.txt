@@ -1,9 +1,11 @@
 python3 reuquired
 
+
 python modules:
 
 python-dotenv
 coc.py
 sqlite3
 importlib
+
 
