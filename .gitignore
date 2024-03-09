@@ -1,6 +1,7 @@
 *.db
 *.log*
 *.env
+*.json
 *pyc*
 *.vscode
     /__pycache__
