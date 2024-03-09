@@ -612,8 +612,6 @@ def setup_logger(log_filename: str, to_file: bool = False):
         
                
 if __name__ == "__main__":
-    setup_logger('clashbot-irc', to_file=True) # Optionally, you can log to a file, change to_file to False to disable this.
-
     # Unlike the other examples that use `asyncio.run()`, in order to run
     # events forever you must set the event loop to run forever so we will use
     # the lower level function calls to handle this.
