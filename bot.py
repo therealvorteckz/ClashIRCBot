@@ -63,9 +63,9 @@ def createtable():
                               )''')
     conn.commit()
     
-    c.execute(f"SELECT * FROM announcemp WHERE bhd=(:bhd)", {'bhd': 'bh'})
+    c.execute(f"SELECT * FROM announcebd WHERE bhd=(:bhd)", {'bhd': 'bh'})
     data = c.fetchall()
-    if data = None:
+    if data == None:
         c.execute(f'INSERT OR REPLACE INTO announcebd VALUES (:bhd, :setting)', {'bhd': 'bh', 'setting': 'on'})
         conn.commit()                           
                                                   
@@ -75,9 +75,9 @@ def createtable():
                               setting text
                               )''')
     conn.commit()
-    c.execute(f"SELECT * FROM announcemp WHERE mpd=(:n)", {'mpd': 'mp'})
+    c.execute(f"SELECT * FROM announcemp WHERE mpd=(:mpd)", {'mpd': 'mp'})
     data = c.fetchall()
-    if data = None:
+    if data == None:
         c.execute(f'INSERT OR REPLACE INTO announcebd VALUES (:mpd, :setting)', {'mpd': 'mp', 'setting': 'on'})
         conn.commit()                           
                                                                          
