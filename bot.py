@@ -494,7 +494,7 @@ class Bot(object):
                                                                                                                                                           
                                     if arguments[0] == '!troops':
                                         if len(arguments) <= 1:
-                                                c.execute(f"SELECT * FROM users WHERE name=:name", {'name': nick})
+                                                c.execute(f"SELECT * FROM users WHERE name=(:name)", {'name': nick})
                                                 user = c.fetchall()
                                                 for regs in user:
                                                     ptag = regs[2]
