@@ -23,7 +23,8 @@ conn = sqlite3.connect("data.db")
 
 c = conn.cursor()
 
-global clan_name
+
+
 
 print('#'*56)
 print('#{0}#'.format(''.center(54)))
@@ -116,7 +117,7 @@ async def on_clan_member_trophies_change(old_trophies, new_trophies):
     c.execute(f"SELECT * FROM announcemp WHERE mpd=(:mpd)", {'mpd': 'mp'})
     data = c.fetchall()
     for setting in data:
-        if setting[1] == 'on' or setting[1] == None:   
+        if setting[1] != 'off':   
             
             if old_trophies.trophies < new_trophies.trophies:
                 await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(old_trophies, colors.color3)}{color("] [", colors.color1)}{color("MP League:", colors.color2)} {color(old_trophies.league, colors.color3)}{color("] [", colors.color1)}{color("MP Trophies Increased:", colors.color2)} {color(old_trophies.trophies,colors.color3)} {color("->", colors.reset)} {color(new_trophies.trophies,colors.color3)}{color("] [", colors.color1)}+{color(new_trophies.trophies-old_trophies.trophies,colors.color3)}{color("]", colors.color1)}')
@@ -132,7 +133,7 @@ async def on_clan_member_builder_base_trophies_change(old_member, new_member):
     c.execute(f"SELECT * FROM announcebd WHERE bhd=(:bhd)", {'bhd': 'bh'})
     data = c.fetchall()
     for setting in data:
-        if setting[1] == 'on' or setting[1] == None:      
+        if setting[1] != 'off':      
             if old_member.builder_base_trophies < new_member.builder_base_trophies:
                 await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color(clan_name, colors.color3)}{color("] [", colors.color1)}{color("Member", colors.color2)}{color("] [", colors.color1)}{color("Player:", colors.color2)} {color(old_member, colors.color3)}{color("] [", colors.color1)}{color("BH League:", colors.color2)} {color(old_member.builder_base_league, colors.color3)}{color("] [", colors.color1)}{color("BH Trophies Increased:", colors.color2)} {color(old_member.builder_base_trophies,colors.color3)} {color("->", colors.reset)} {color(new_member.builder_base_trophies,colors.color3)}{color("] [", colors.color1)}+{color(new_member.builder_base_trophies-old_member.builder_base_trophies,colors.color3)}{color("]", colors.color1)}')
             else:	
@@ -297,6 +298,7 @@ class Bot(object):
                                         reload(colors)
 
                                     if arguments[0] == '!announce':
+                                                
                                             c.execute(f'SELECT rowid FROM admins WHERE name=(:name)', {'name': nick})
                                             data=c.fetchone()
                                             if data is None:
