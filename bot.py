@@ -335,6 +335,10 @@ class Bot(object):
                                         await bot.sendmsg(config.irc.channel, f'!showmembers [optional: clantag]')
                                         await bot.sendmsg(config.irc.channel, f'!war [shows war stats for curren/recent wars]')
                                         await bot.sendmsg(config.irc.channel, f'!reloadcolors [change bot colors in config and reload on-the-fly]')
+                                        await bot.sendmsg(config.irc.channel, f'\r\n')
+                                        await bot.sendmsg(config.irc.channel, f'[Admin Commands]')
+                                        await bot.sendmsg(config.irc.channel, f'!login [adminpass] - Private message')
+                                        await bot.sendmsg(config.irc.channel, f'!announce <bb/mp> <on/off>')
                                     if arguments[0] == '!war':
                                         
                                         war = await coc_client.get_current_war(config.clashconfig.tag)
