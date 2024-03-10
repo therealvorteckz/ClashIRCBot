@@ -7,7 +7,7 @@ class config:
         tag = "#28R992YJR" # clan tag
     class irc:
         server = 'irc.supernets.org'
-        port = 6667
+        port = 6697
         username = 'sod'
         realname = 'ClashIRCBot by vorteckz'
         nickname = 'SPeLLoFDeATH'
@@ -15,7 +15,7 @@ class config:
         adminpassword = 'loginpassword'
         channelkey = ''
         password = None
-        ssl = False # only turn on if your IRC server port supports ssl
+        ssl = True # only turn on if your IRC server port supports ssl
         v6 = 2
         vhost = None
         
