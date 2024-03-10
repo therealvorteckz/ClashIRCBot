@@ -440,7 +440,7 @@ class Bot(object):
                                             if coc.utils.is_valid_tag(arguments[2]):
                                                 c.execute(f'UPDATE USERS set TAG = (:tag) where NAME = (:name)', {'tag': arguments[2], 'name': nick})
                                                 player = await coc_client.get_player(arguments[2])
-                                                await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Linked your nickname to Clash Player:", colors.color2)} {color(player, colors.color3)} {color("Tag:", colors.color2)}{color(arguments[2], colors.color3)}{color("]", colors.color1)}')
+                                                await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Linked your nickname to Clash Player:", colors.color2)} {color(player, colors.color3)} {color("Tag:", colors.color2)} {color(arguments[2], colors.color3)}{color("]", colors.color1)}')
                                                 conn.commit()
                                             else:
                                                 await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("You entered a NON-existant Player Tag", colors.color2)}{color("]", colors.color1)}')
@@ -624,6 +624,7 @@ if __name__ == "__main__":
         #loop.run_forever()
     except KeyboardInterrupt:
         pass
-    
+     
 
 asyncio.run(main())
+#create name
