@@ -294,10 +294,10 @@ class Bot(object):
                                     config.throttle.lastnick = nick
                                     if arguments[0] == '!hug':
                                         await bot.sendmsg(target, f'[XOXO Hugger9000... {nick} hugs {arguments[1]}]')
-                                    if arguments[0] == '!reloadcolors':
+                                    elif arguments[0] == '!reloadcolors':
                                         reload(colors)
 
-                                    if arguments[0] == '!announce':
+                                    elif arguments[0] == '!announce':
                                                 
                                             c.execute(f'SELECT rowid FROM admins WHERE name=(:name)', {'name': nick})
                                             data=c.fetchone()
@@ -341,7 +341,7 @@ class Bot(object):
                                         await bot.sendmsg(config.irc.channel, f'[Admin Commands]')
                                         await bot.sendmsg(config.irc.channel, f'!login [adminpass] - Private message')
                                         await bot.sendmsg(config.irc.channel, f'!announce <bb/mp> <on/off>')
-                                    if arguments[0] == '!war':
+                                    elif arguments[0] == '!war':
                                         
                                         war = await coc_client.get_current_war(config.clashconfig.tag)
                                         if war.end_time:
@@ -365,7 +365,7 @@ class Bot(object):
                                             await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("War", colors.color3)}{color("] [", colors.color1)}{color(war.opponent.name, colors.color3)}{color("] - [", colors.color1)}{color(war.opponent.tag, colors.color3)}{color("]", colors.color1)}')
                                             for o, e in enumerate(war.opponent.members, start=1):
                                                 await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("War", colors.color3)}{color("] [#", colors.color1)}{color(o, colors.color3)} {color("[", colors.color1)}{color(e.name, colors.color3)}{color("] [", colors.color1)}{color("Stars:", colors.color2)} {color(e.star_count, colors.color3)}{color("]", colors.color1)}')
-                                    if arguments[0] == '!showmembers':
+                                    elif arguments[0] == '!showmembers':
                                         if len(arguments) <= 1:
                                                 c.execute(f"SELECT * FROM users WHERE name=(:name)", {'name': nick})
                                                 user = c.fetchall()
@@ -387,7 +387,7 @@ class Bot(object):
                                                 await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Tag:", colors.color2)} {color(a.tag, colors.color3)}{color("]", colors.color1)} {color("[", colors.color1)}{color("Player:", colors.color2)} {color(a.name, colors.color3)}{color("]", colors.color1)}')
                                                 #member += f"{name1}\n"
                                                 #membertag += f"{tag1}\n"
-                                    if arguments[0] == '!clan':
+                                    elif arguments[0] == '!clan':
                                         if len(arguments) <= 1:
                                                 c.execute(f"SELECT * FROM users WHERE name=(:name)", {'name': nick})
                                                 user = c.fetchall()
@@ -417,7 +417,7 @@ class Bot(object):
                                                 if clan.war_ties != None:
                                                    await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Wars Total:", colors.color2)} {color(clan.war_wins+ clan.war_losses+ clan.war_ties, colors.color3)}{color("]", colors.color1)}')
                                         await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Wars Won:", colors.color2)} {color(clan.war_wins, colors.color3)}{color("] [", colors.color1)}{color("Wars Lost:", colors.color2)} {color(clan.war_losses, colors.color3)}{color("] [", colors.color1)}{color("Wars Ties:", colors.color2)} {color(clan.war_ties, colors.color3)}{color("]", colors.color1)}')
-                                    if arguments[0] == '!login':
+                                    elif arguments[0] == '!login':
                                         if arguments[1] != None:
                                             c.execute(f'SELECT rowid FROM admins WHERE name=(:name)', {'name': nick})
                                             data=c.fetchone()
@@ -429,7 +429,7 @@ class Bot(object):
                                                     await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Admin Login Verfied:", colors.color2)} {color(nick, colors.color3)}{color("]", colors.color1)}')
                                             else:
                                                 await bot.sendmsg(nick, f"You're an Admin!")
-                                    if arguments[0] == '!link':
+                                    elif arguments[0] == '!link':
                                         c.execute(f'SELECT rowid FROM users WHERE name=(:name)', {'name': nick})
                                         data=c.fetchone()
                                         if data is None:
@@ -453,7 +453,7 @@ class Bot(object):
                                             else:
                                                 await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("You entered a NON-existant Clan Tag", colors.color2)}{color("]", colors.color1)}')
 
-                                    if arguments[0] == '!stats':
+                                    elif arguments[0] == '!stats':
                                         if len(arguments) <= 1:
                                                 c.execute(f"SELECT * FROM users WHERE name=(:name)", {'name': nick})
                                                 user = c.fetchall()
@@ -498,7 +498,7 @@ class Bot(object):
                                             await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Total Spells Donateds:", colors.color2)} {color(spells.value, colors.color3)}{color("]", colors.color1)}')
                                             await bot.sendmsg(config.irc.channel, f'{color("[", colors.color1)}{color("Total Siege Machines Donated:", colors.color2)} {color(siege.value, colors.color3)}{color("]", colors.color1)}')
                                                                                                                                                           
-                                    if arguments[0] == '!troops':
+                                    elif arguments[0] == '!troops':
                                         if len(arguments) <= 1:
                                                 c.execute(f"SELECT * FROM users WHERE name=(:name)", {'name': nick})
                                                 user = c.fetchall()
