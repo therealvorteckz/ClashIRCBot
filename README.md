@@ -3,7 +3,7 @@
 # New feature - Private Message !login adminpass
 # New feature - !announce <bb/mp> <on/off> - Turn on and off announcer for mutliplayer/builder base trophy changes
 
-![image](https://i.imgur.com/J1w8zaD.png)
+![image](https://i.imgur.com/twbILBh.png)
 ![image](https://pbs.twimg.com/media/F9K2TLNWsAAnRbh?format=png&name=medium)
 
 Create "bot.env" file with the following parameters for your CoC API
